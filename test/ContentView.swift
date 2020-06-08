@@ -8,6 +8,12 @@
 
 import SwiftUI
 
+struct User: Codable {
+    var symbol: String
+    var price: String
+}
+
+typealias Response = [User]
 
 struct GradientBackgroundStyle: ButtonStyle {
  
@@ -125,6 +131,7 @@ struct ContentView: View {
                     self.coinbase()
                     self.binance()
                     self.ranker()
+                    self.fetchUsers(amount: 0)
                 }) {
                     HStack {
                         if BuyImageChange {
@@ -199,7 +206,20 @@ struct ContentView: View {
         
         
     }
-    
+    func fetchUsers(amount: Int) {
+        let url:URL = URL(string: "https://api.binance.com/api/v3/ticker/price")!
+
+        URLSession.shared.dataTask(with: url) { (data, res, err) in
+            if let err = err { print(err) }
+            guard let data = data else { return }
+            do {
+                let response = try JSONDecoder().decode(Response.self, from: data)
+                print(response)
+            } catch let err {
+                print(err)
+            }
+        }.resume()
+    }
     
     func loadData(){
         cb_btc_buy = 6500
