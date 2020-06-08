@@ -13,7 +13,7 @@ struct User: Codable {
     var price: String
 }
 
-typealias Response = [User]
+typealias Response = User
 
 struct GradientBackgroundStyle: ButtonStyle {
  
@@ -207,14 +207,14 @@ struct ContentView: View {
         
     }
     func fetchUsers(amount: Int) {
-        let url:URL = URL(string: "https://api.binance.com/api/v3/ticker/price")!
+        let url:URL = URL(string: "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")!
 
         URLSession.shared.dataTask(with: url) { (data, res, err) in
             if let err = err { print(err) }
             guard let data = data else { return }
             do {
                 let response = try JSONDecoder().decode(Response.self, from: data)
-                print(response)
+                print(response.price)
             } catch let err {
                 print(err)
             }
