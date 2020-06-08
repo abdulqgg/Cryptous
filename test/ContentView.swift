@@ -12,7 +12,14 @@ struct User: Codable {
     var symbol: String
     var price: String
 }
+struct User_cb: Codable {
+    var data: User_cb1
+}
+struct User_cb1: Codable{
+    var amount: String
+}
 
+typealias Response_cb = User_cb
 typealias Response = User
 
 struct GradientBackgroundStyle: ButtonStyle {
@@ -41,9 +48,9 @@ struct ContentView: View {
     @State var amount_cb: Double = 0
     @State var amount_bi: Double = 0
     // Values of crypto (fetched by webapi)
-    @State var cb_btc_buy: Int = 0
+    @State var cb_btc_buy: Double = 0
     @State var cb_btc_sell: Int = 0
-    @State var bi_btc_buy: Int = 0
+    @State var bi_btc_buy: Double = 0
     @State var bi_btc_sell: Int = 0
     // Crypto exchange fees
     @State var cb_fees: Double = 0
@@ -131,7 +138,8 @@ struct ContentView: View {
                     self.coinbase()
                     self.binance()
                     self.ranker()
-                    self.fetchUsers(amount: 0)
+                    self.fetchUsers_bi(amount: 0)
+                    self.fetchUsers_cb(amount: 0)
                 }) {
                     HStack {
                         if BuyImageChange {
@@ -206,7 +214,7 @@ struct ContentView: View {
         
         
     }
-    func fetchUsers(amount: Int) {
+    func fetchUsers_bi(amount: Int) {
         let url:URL = URL(string: "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")!
 
         URLSession.shared.dataTask(with: url) { (data, res, err) in
@@ -214,7 +222,22 @@ struct ContentView: View {
             guard let data = data else { return }
             do {
                 let response = try JSONDecoder().decode(Response.self, from: data)
-                print(response.price)
+                self.bi_btc_buy = Double(response.price) ?? 0
+            } catch let err {
+                print(err)
+            }
+        }.resume()
+    }
+    func fetchUsers_cb(amount: Int) {
+        let url:URL = URL(string: "https://api.coinbase.com/v2/prices/BTC-USD/buy")!
+
+        URLSession.shared.dataTask(with: url) { (data, res, err) in
+            if let err = err { print(err) }
+            guard let data = data else { return }
+            do {
+                let response = try JSONDecoder().decode(Response_cb.self, from: data)
+                print(response.data.amount)
+                self.cb_btc_buy = Double(response.data.amount) ?? 0
             } catch let err {
                 print(err)
             }
@@ -222,8 +245,10 @@ struct ContentView: View {
     }
     
     func loadData(){
+        
+        
         cb_btc_buy = 6500
-        bi_btc_buy = 6500
+        //bi_btc_buy = 6500
         cb_btc_sell = 6500
         bi_btc_sell = 6500
     }
@@ -258,7 +283,7 @@ struct ContentView: View {
     
     func coinbase(){
         if buysell == "buy"{
-            amount_cb = Double((Int(amount) ?? 1)*cb_btc_buy)
+            amount_cb = Double((Int(amount) ?? 1)*Int(cb_btc_buy))
             if amount_cb < 100000{
                 cb_fees = Double(amount_cb) * Double(0.0025)}
             else if amount_cb >= 100000 && amount_cb < 1000000{
@@ -281,7 +306,7 @@ struct ContentView: View {
 
     func binance(){
         if buysell == "buy"{
-            amount_bi = Double((Int(amount) ?? 1)*bi_btc_buy)
+            amount_bi = Double((Int(amount) ?? 1)*Int(bi_btc_buy))
             if Int(amount) ?? 1 <= 4500{
                 bi_fees = Double(amount_bi) * Double(0.001)}
             else if Int(amount) ?? 1 <= 10000{
