@@ -154,15 +154,15 @@ struct ContentView: View {
                     self.fetchUsers_cb(amount: 0)
                 }) {
                     HStack {
-                        if BuyImageChange {
-                            
-                            Image("buy")
-                        }else{
-                            Image("sell")}
-                        
                         Text("Buy")
-                            .fontWeight(.semibold)
-                            .foregroundColor(Color.black)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color.white)
+                        if BuyImageChange {
+                            Image(systemName: "cart.badge.plus.fill")
+                        }else{
+                            Image(systemName: "cart.badge.plus")
+                        }
+                        
                     }
                 }.buttonStyle(GradientBackgroundStyle())
             
@@ -176,23 +176,19 @@ struct ContentView: View {
                     self.ranker()
                 }) {
                     HStack {
-                        if SellImageChange {
-                            Image("buy")
-                        }else{
-                            Image("sell")
-                        }
-                        
                         Text("Sell")
                             .fontWeight(.semibold)
-                        .foregroundColor(Color.black)
-
+                        .foregroundColor(Color.white)
+                        if SellImageChange {
+                            Image(systemName: "cart.badge.minus.fill")
+                        }else{
+                            Image(systemName: "cart.badge.minus")
+                        }
+                        
                     }
                 }.buttonStyle(GradientBackgroundStyle())
                 
             }
-            
-            
-            
             
             NavigationView{
                 List{
@@ -237,8 +233,8 @@ struct ContentView: View {
                                     .font(.system(size: 20))
                                     .foregroundColor(.blue)
                                     .padding(.vertical)
-                                    .frame(width: gp.size.width)
-                            }.background(Color.white)
+                                    //.frame(width: gp.size.width)
+                            }//.background(Color.white)
                             Spacer()
                         }
                         .frame(width: gp.size.width + 1000, height: gp.size.height + 15)
@@ -265,8 +261,8 @@ struct ContentView: View {
                                     .font(.system(size: 20))
                                     .foregroundColor(.blue)
                                     .padding(.vertical)
-                                    .frame(width: gp.size.width)
-                            }.background(Color.white)
+                                    //.frame(width: gp.size.width)
+                            }//.background(Color.white)
                             Spacer()
                         }
                         .frame(width: gp.size.width + 1000, height: gp.size.height + 15)
