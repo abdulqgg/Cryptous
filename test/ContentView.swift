@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-
 struct User: Codable {
     var symbol: String
     var price: String
@@ -87,9 +86,12 @@ struct ContentView: View {
             
             HStack {
                 TextField("Enter amount", text: $amount)
-                    .padding(7)
-                    .border(Color.gray, width: 1)
-                    .cornerRadius(5)
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 40)
+                    .padding(.leading, 5)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray, lineWidth: 1))
+                    .padding(.leading, 10)
                     .keyboardType(UIKeyboardType.numberPad)
                 
                 Button(action: {
