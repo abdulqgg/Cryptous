@@ -72,6 +72,13 @@ struct ContentView: View {
     // Dropdown animation
     @State var expand1 = false
     
+    @State var expand_curr = false
+    @State var list_curr: Array = ["GBP","USD","EUR"]
+    @State var index_curr = 0
+    
+    @State var expand_crp = false
+    @State var list_crp: Array = ["Bitcoin","Litecoin","Ethereum"]
+    @State var index_crp = 0
     
     var body: some View {
         
@@ -79,52 +86,26 @@ struct ContentView: View {
             
             HStack {
                 TextField("Enter amount", text: $amount)
-                    //.textFieldStyle(.roundedBorder)
-                    //.padding(10)
-                
-                VStack(alignment: .leading, content: {
-                    HStack{
-                        Text("\(crypto)")
-                            .fontWeight(.heavy)
-                        Image(systemName: expand1 ? "chevron.up" : "chevron.down")
-                        .resizable()
-                            .frame(width: 13, height: 6)
-                    }
-                    .onTapGesture {
-                        self.expand1.toggle()
-                    }
-                    if expand1 {
-                        Button(action: {
-                            self.expand1.toggle()
-                            self.crypto = "Bitcoin"
-                        }) {
-                            Text("Bitcoin")
-                            
-                        }.foregroundColor(.black)
-                        
-                        Button(action: {
-                            self.expand1.toggle()
-                            self.crypto = "Litecoin"
-                        }) {
-                            Text("Litecoin")
-                                
-                        }.foregroundColor(.black)
-                        
-                        Button(action: {
-                            self.expand1.toggle()
-                            self.crypto = "Ethereum"
-                        }) {
-                            Text("Ethereum")
-                                
-                        }.foregroundColor(.black)
-                    }
-                    
-                    
-                })
                     .padding(7)
-                    .background(expand1 ? LinearGradient(gradient: Gradient(colors: [Color("DarkBlue"), Color("LightBlue")]), startPoint: .leading, endPoint: .trailing) : LinearGradient(gradient: Gradient(colors: [Color("DarkBlue"), Color("LightBlue")]), startPoint: .leading, endPoint: .trailing))
-                .cornerRadius(20)
-                .animation(.spring())
+                    .border(Color.gray, width: 1)
+                    .cornerRadius(5)
+                
+                Button(action: {
+                    self.expand_curr.toggle()
+                    self.expand_crp = false
+                }) {
+                    Text("\(list_curr[index_curr])")
+                }
+                
+                Button(action: {
+                    self.expand_crp.toggle()
+                    self.expand_curr = false
+                }) {
+                    Text("\(list_crp[index_crp])")
+                }
+
+                
+                
             }.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10))
             
                 
@@ -207,6 +188,59 @@ struct ContentView: View {
                 
             }
             
+            if expand_curr {
+                
+                Picker(selection: $index_curr, label: EmptyView()) {
+                    ForEach(0 ..< list_curr.count) {
+                        Text(self.list_curr[$0]).tag($0)
+                    }
+                }.labelsHidden()
+                .overlay(
+                    GeometryReader { gp in
+                        VStack {
+                            Button(action: {
+                                self.expand_curr.toggle()
+                            }) {
+                                Text("Return")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.black)
+                                    .padding(.vertical)
+                                    .frame(width: gp.size.width)
+                            }.background(Color.white)
+                            Spacer()
+                        }
+                        //.frame(width: gp.size.width, height: gp.size.height - 12)
+                        //.border(Color.black, width: 8)
+                    }
+                )
+                
+            }
+            if expand_crp {
+                
+                Picker(selection: $index_crp, label: EmptyView()) {
+                    ForEach(0 ..< list_crp.count) {
+                        Text(self.list_crp[$0]).tag($0)
+                    }
+                }.labelsHidden()
+                .overlay(
+                    GeometryReader { gp in
+                        VStack {
+                            Button(action: {
+                                self.expand_crp.toggle()
+                            }) {
+                                Text("Return")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.black)
+                                    .padding(.vertical)
+                                    .frame(width: gp.size.width)
+                            }.background(Color.white)
+                            Spacer()
+                        }
+                        //.frame(width: gp.size.width, height: gp.size.height - 12)
+                        //.border(Color.black, width: 8)
+                    }
+                )
+            }
             
             
         }
