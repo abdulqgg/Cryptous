@@ -26,7 +26,7 @@ struct GradientBackgroundStyle: ButtonStyle {
  
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
-            .frame(minWidth: 0, maxWidth: 150)
+            .frame(minWidth: 0, maxWidth: 175)
             .padding(5)
             .foregroundColor(.white)
             //.background(Color.gray)
@@ -89,7 +89,7 @@ struct ContentView: View {
             HStack {
                 TextField("Enter amount", text: $amount)
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 30)
-                    .padding(.leading, 5)
+                    .padding(5)
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(Color.gray, lineWidth: 1))
@@ -137,11 +137,11 @@ struct ContentView: View {
                 }
                 
                 
-            }.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10))
+            }.padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
             
                 
             
-            HStack (spacing: 10){
+            HStack (spacing: 15){
                 Button(action: {
                     self.buysell = "buy"
                     self.BuyImageChange.toggle()
@@ -211,9 +211,9 @@ struct ContentView: View {
                     }
                 }
                 .navigationBarTitle(Text("Top Exchnages to \(buysell)"), displayMode: .inline)
-                    
                 
-            }
+                
+            }.padding(.top, 7)
             
             if expand_curr {
                 
