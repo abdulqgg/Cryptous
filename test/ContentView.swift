@@ -69,16 +69,18 @@ struct ContentView: View {
     // Button animation
     @State var BuyImageChange = false
     @State var SellImageChange = false
-    // Dropdown animation
-    @State var expand1 = false
-    
+    //Dropdown scroll wheel for currency
     @State var expand_curr = false
+    @State var expand1 = false
     @State var list_curr: Array = ["GBP","USD","EUR"]
     @State var index_curr = 0
-    
+    //Dropdwon scroll wheel fro crypto
     @State var expand_crp = false
+    @State var expand2 = false
     @State var list_crp: Array = ["Bitcoin","Litecoin","Ethereum"]
     @State var index_crp = 0
+    
+    
     
     var body: some View {
         
@@ -86,7 +88,7 @@ struct ContentView: View {
             
             HStack {
                 TextField("Enter amount", text: $amount)
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 40)
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 30)
                     .padding(.leading, 5)
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
@@ -94,20 +96,45 @@ struct ContentView: View {
                     .padding(.leading, 10)
                     .keyboardType(UIKeyboardType.numberPad)
                 
-                Button(action: {
-                    self.expand_curr.toggle()
-                    self.expand_crp = false
-                }) {
-                    Text("\(list_curr[index_curr])")
+                HStack {
+                    Button(action: {
+                        self.expand_curr.toggle()
+                        self.expand1.toggle()
+                        self.expand_crp = false
+                        self.expand2 = false
+                    }) {
+                        Text("\(list_curr[index_curr])")
+                        
+                    }
+                    if expand1 {
+                        Image(systemName: "circle.fill")
+                            .foregroundColor(Color.blue)
+                    }
+                    else{
+                        Image(systemName: "circle")
+                            .foregroundColor(Color.blue)
+                    }
+                    
                 }
                 
-                Button(action: {
-                    self.expand_crp.toggle()
-                    self.expand_curr = false
-                }) {
-                    Text("\(list_crp[index_crp])")
+                HStack{
+                    Button(action: {
+                        self.expand_crp.toggle()
+                        self.expand2.toggle()
+                        self.expand_curr = false
+                        self.expand1 = false
+                    }) {
+                        Text("\(list_crp[index_crp])")
+                    }
+                    if expand2 {
+                        Image(systemName: "circle.fill")
+                            .foregroundColor(Color.blue)
+                    }
+                    else{
+                        Image(systemName: "circle")
+                            .foregroundColor(Color.blue)
+                    }
                 }
-
                 
                 
             }.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10))
@@ -204,17 +231,18 @@ struct ContentView: View {
                         VStack {
                             Button(action: {
                                 self.expand_curr.toggle()
+                                self.expand1.toggle()
                             }) {
-                                Text("Return")
+                                Text("Done")
                                     .font(.system(size: 20))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.blue)
                                     .padding(.vertical)
                                     .frame(width: gp.size.width)
                             }.background(Color.white)
                             Spacer()
                         }
-                        //.frame(width: gp.size.width, height: gp.size.height - 12)
-                        //.border(Color.black, width: 8)
+                        .frame(width: gp.size.width + 1000, height: gp.size.height + 15)
+                        .border(Color.blue, width: 1)
                     }
                 )
                 
@@ -231,17 +259,18 @@ struct ContentView: View {
                         VStack {
                             Button(action: {
                                 self.expand_crp.toggle()
+                                self.expand2.toggle()
                             }) {
-                                Text("Return")
+                                Text("Done")
                                     .font(.system(size: 20))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.blue)
                                     .padding(.vertical)
                                     .frame(width: gp.size.width)
                             }.background(Color.white)
                             Spacer()
                         }
-                        //.frame(width: gp.size.width, height: gp.size.height - 12)
-                        //.border(Color.black, width: 8)
+                        .frame(width: gp.size.width + 1000, height: gp.size.height + 15)
+                        .border(Color.blue, width: 1)
                     }
                 )
             }
