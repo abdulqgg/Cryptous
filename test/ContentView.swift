@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct User: Codable {
     var symbol: String
     var price: String
@@ -89,6 +90,7 @@ struct ContentView: View {
                     .padding(7)
                     .border(Color.gray, width: 1)
                     .cornerRadius(5)
+                    .keyboardType(UIKeyboardType.numberPad)
                 
                 Button(action: {
                     self.expand_curr.toggle()
