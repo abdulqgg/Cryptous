@@ -7,7 +7,55 @@
 //
 
 import SwiftUI
+struct TestTextfield: UIViewRepresentable {
 
+    @Binding var amount: String
+
+    var keyType: UIKeyboardType
+
+    func makeUIView(context: Context) -> UITextField {
+        let textfield = UITextField()
+      textfield.keyboardType = keyType
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: textfield.frame.size.width, height: 44))
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(textfield.doneButtonTapped(button:)))
+        toolBar.items = [doneButton]
+        toolBar.setItems([doneButton], animated: true)
+        textfield.inputAccessoryView = toolBar
+        textfield.delegate = context.coordinator
+        return textfield
+    }
+
+    func updateUIView(_ uiView: UITextField, context: Context) {
+
+        uiView.text = amount
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator($amount)
+    }
+
+    class Coordinator: NSObject, UITextFieldDelegate {
+
+        @Binding var amount: String
+
+        init(_ text: Binding<String>) {
+            self._amount = text
+        }
+
+        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+            amount = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
+
+            return true
+        }
+    }
+}
+extension  UITextField{
+    @objc func doneButtonTapped(button:UIBarButtonItem) -> Void {
+       self.resignFirstResponder()
+    }
+
+}
 struct User: Codable {
     var symbol: String
     var price: String
@@ -80,21 +128,20 @@ struct ContentView: View {
     @State var list_crp: Array = ["Bitcoin","Litecoin","Ethereum"]
     @State var index_crp = 0
     
-    
+    @State var text = ""
     
     var body: some View {
         
         VStack {
             
             HStack {
-                TextField("Enter amount", text: $amount)
+                TestTextfield(amount: $amount, keyType: UIKeyboardType.phonePad)
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 30)
                     .padding(5)
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(Color.gray, lineWidth: 1))
                     .padding(.leading, 10)
-                    .keyboardType(UIKeyboardType.numberPad)
                 
                 HStack {
                     Button(action: {
@@ -174,6 +221,7 @@ struct ContentView: View {
                     self.coinbase()
                     self.binance()
                     self.ranker()
+                    print(self.text)
                 }) {
                     HStack {
                         Text("Sell")
@@ -210,7 +258,7 @@ struct ContentView: View {
                         Text("\(cb_paymeth) \(cb_payfees)")
                     }
                 }
-                .navigationBarTitle(Text("Top Exchnages to \(buysell)"), displayMode: .inline)
+                .navigationBarTitle(Text("Top Exchnages to \(buysell) \(list_crp[index_crp])"), displayMode: .inline)
                 
                 
             }.padding(.top, 7)
