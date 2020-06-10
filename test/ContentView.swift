@@ -128,15 +128,13 @@ struct ContentView: View {
     @State var list_crp: Array = ["Bitcoin","Litecoin","Ethereum"]
     @State var index_crp = 0
     
-    @State var text = ""
-    
     var body: some View {
         
         VStack {
             
             HStack {
                 TestTextfield(amount: $amount, keyType: UIKeyboardType.phonePad)
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 30)
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 25)
                     .padding(5)
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
@@ -221,7 +219,6 @@ struct ContentView: View {
                     self.coinbase()
                     self.binance()
                     self.ranker()
-                    print(self.text)
                 }) {
                     HStack {
                         Text("Sell")
