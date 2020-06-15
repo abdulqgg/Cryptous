@@ -135,6 +135,9 @@ struct ContentView: View {
     @State var first_payfees: String = ""
     @State var second_payfees: String = ""
     @State var third_payfees: String = ""
+    @State var first_fees: String = ""
+    @State var second_fees: String = ""
+    @State var third_fees: String = ""
     // Button animation
     @State var BuyImageChange = false
     @State var SellImageChange = false
@@ -465,17 +468,17 @@ struct ContentView: View {
                 second_paymeth = cex_paymeth
                 second_payfees = String(cex_payfees)
             }
-            if third == Int(amount_bi){second_name = "Binance"
+            if third == Int(amount_bi){third_name = "Binance"
                 third_link = "Binance"
                 third_paymeth = bi_paymeth
                 third_payfees = String(bi_payfees)
             }
-            else if third == Int(amount_cb){second_name = "Coinbase Pro"
+            else if third == Int(amount_cb){third_name = "Coinbase Pro"
                 third_link = "Coinbase"
                 third_paymeth = cb_paymeth
                 third_payfees = String(cb_payfees)
             }
-            else if third == Int(amount_cex){second_name = "Cex.io"
+            else if third == Int(amount_cex){third_name = "Cex.io"
                 third_link = "Cex.io"
                 third_paymeth = cex_paymeth
                 third_payfees = String(cex_payfees)
@@ -513,17 +516,17 @@ struct ContentView: View {
                 second_paymeth = cex_paymeth
                 second_payfees = String(cex_payfees)
             }
-            if third == Int(amount_bi){second_name = "Binance"
+            if third == Int(amount_bi){third_name = "Binance"
                 third_link = "Binance"
                 third_paymeth = bi_paymeth
                 third_payfees = String(bi_payfees)
             }
-            else if third == Int(amount_cb){second_name = "Coinbase Pro"
+            else if third == Int(amount_cb){third_name = "Coinbase Pro"
                 third_link = "Coinbase"
                 third_paymeth = cb_paymeth
                 third_payfees = String(cb_payfees)
             }
-            else if third == Int(amount_cex){second_name = "Cex.io"
+            else if third == Int(amount_cex){third_name = "Cex.io"
                 third_link = "Cex.io"
                 third_paymeth = cex_paymeth
                 third_payfees = String(cex_payfees)
@@ -563,11 +566,11 @@ struct ContentView: View {
     func binance(){
         if buysell == "buy"{
             amount_bi = Double((Double(amount) ?? 1)*Double(bi_btc_buy))*Double(multi)
-            if Int(amount) ?? 1 <= 4500{
+            if Int(amount_bi) <= 4500{
                 bi_fees = Double(amount_bi) * Double(0.001)}
-            else if Int(amount) ?? 1 <= 10000{
+            else if Int(amount_bi) <= 10000{
                 bi_fees = Double(amount_bi) * Double(0.0009)}
-            else if Int(amount) ?? 1 <= 20000{
+            else if Int(amount_bi) <= 20000{
                 bi_fees = Double(amount_bi) * Double(0.0008)}
             else{bi_fees = Double(amount_bi) * Double(0.0007)}
             bi_paymeth = "Bank Transfer"
@@ -577,11 +580,11 @@ struct ContentView: View {
             
         else if buysell == "sell"{
             amount_bi = Double((Double(amount) ?? 1)*Double(bi_btc_sell))*Double(multi)
-            if Int(amount) ?? 1 <= 4500{
+            if Int(amount_bi) <= 4500{
                 bi_fees = Double(amount_bi) * Double(0.001)}
-            else if Int(amount) ?? 1 <= 10000{
+            else if Int(amount_bi) <= 10000{
                 bi_fees = Double(amount_bi) * Double(0.0009)}
-            else if Int(amount) ?? 1 <= 20000{
+            else if Int(amount_bi) <= 20000{
                 bi_fees = Double(amount_bi) * Double(0.0008)}
             else{bi_fees = Double(amount_bi) * Double(0.0007)}
             bi_paymeth = "Bank Transfer"
@@ -593,29 +596,29 @@ struct ContentView: View {
     func cexio(){
         if buysell == "buy"{
             amount_cex = Double((Double(amount) ?? 1)*Double(cex_btc_buy))*Double(multi)
-            if Int(amount) ?? 1 <= 4500{
-                cex_fees = Double(amount_cex) * Double(0.001)}
-            else if Int(amount) ?? 1 <= 10000{
-                cex_fees = Double(amount_cex) * Double(0.0009)}
-            else if Int(amount) ?? 1 <= 20000{
-                cex_fees = Double(amount_cex) * Double(0.0008)}
-            else{cex_fees = Double(amount_cex) * Double(0.0007)}
+            if Int(amount) ?? 1 <= 5{
+                cex_fees = Double(amount_cex) * Double(0.0016)}
+            else if Int(amount) ?? 1 <= 30{
+                cex_fees = Double(amount_cex) * Double(0.0015)}
+            else if Int(amount) ?? 1 <= 50{
+                cex_fees = Double(amount_cex) * Double(0.0013)}
+            else{cex_fees = Double(amount_cex) * Double(0.001)}
             cex_paymeth = "Bank Transfer"
-            cex_payfees = amount_cex*0.0001
+            cex_payfees = amount_cex*0.0000
             amount_cex += cex_fees
         }
             
         else if buysell == "sell"{
             amount_cex = Double((Double(amount) ?? 1)*Double(cex_btc_buy))*Double(multi)
-            if Int(amount) ?? 1 <= 4500{
-                cex_fees = Double(amount_cex) * Double(0.001)}
-            else if Int(amount) ?? 1 <= 10000{
-                cex_fees = Double(amount_cex) * Double(0.0009)}
-            else if Int(amount) ?? 1 <= 20000{
-                cex_fees = Double(amount_cex) * Double(0.0008)}
-            else{cex_fees = Double(amount_cex) * Double(0.0007)}
+            if Int(amount) ?? 1 <= 5{
+                cex_fees = Double(amount_cex) * Double(0.0025)}
+            else if Int(amount) ?? 1 <= 30{
+                cex_fees = Double(amount_cex) * Double(0.0023)}
+            else if Int(amount) ?? 1 <= 50{
+                cex_fees = Double(amount_cex) * Double(0.002)}
+            else{cex_fees = Double(amount_cex) * Double(0.0015)}
             cex_paymeth = "Bank Transfer"
-            cex_payfees = amount_cex*0.0001
+            cex_payfees = amount_cex*0.0000
             amount_cex += cex_fees
         }
     }
