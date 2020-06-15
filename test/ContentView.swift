@@ -130,7 +130,7 @@ struct ContentView: View {
     @State var index_curr = 0
     @State var currency_rates = ["USD" : 1, "GBP" : 0.8, "EUR" : 0.89, "JPY" : 107.36, "PKR" : 165.96]
     @State var currency_sym = ["USD" : "$", "GBP" : "£", "EUR" : "€", "JPY" : "¥", "PKR" : "Rs"]
-    @State var multi: Double = 1
+    @State var multi: Double = 0.8
     //Dropdwon scroll wheel fro crypto
     @State var expand_crp = false
     @State var expand2 = false
@@ -203,8 +203,15 @@ struct ContentView: View {
                     self.BuyImageChange.toggle()
                     self.SellImageChange = false
                     //print(self.buysell)
-                    self.fetchUsers_bi(amount: 0)
-                    self.fetchUsers_cb(amount: 0)
+                    
+                    if self.list_crp[self.index_crp] == "Bitcoin"{
+                        self.fetchUsers_bi_btc(amount: 0)
+                        self.fetchUsers_cb_btc(amount: 0)
+                    } else if self.list_crp[self.index_crp] == "Litecoin"{
+                        self.fetchUsers_bi_ltc(amount: 0)
+                        self.fetchUsers_cb_ltc(amount: 0)
+                    }
+                    
                     self.coinbase()
                     self.binance()
                     self.ranker()
@@ -228,8 +235,14 @@ struct ContentView: View {
                     self.SellImageChange.toggle()
                     self.BuyImageChange = false
                     //print(self.buysell)
-                    self.fetchUsers_bi(amount: 0)
-                    self.fetchUsers_cb(amount: 0)
+                    if self.list_crp[self.index_crp] == "Bitcoin"{
+                        self.fetchUsers_bi_btc(amount: 0)
+                        self.fetchUsers_cb_btc(amount: 0)
+                    } else if self.list_crp[self.index_crp] == "Litecoin"{
+                        self.fetchUsers_bi_ltc(amount: 0)
+                        self.fetchUsers_cb_ltc(amount: 0)
+                    }
+                    
                     self.coinbase()
                     self.binance()
                     self.ranker()
@@ -287,7 +300,7 @@ struct ContentView: View {
                             Button(action: {
                                 self.expand_curr.toggle()
                                 self.expand1.toggle()
-                                self.multi = self.currency_rates[self.list_curr[self.index_curr]] ?? 1
+                                self.multi = self.currency_rates[self.list_curr[self.index_curr]] ?? 0.8
                             }) {
                                 Text("Done")
                                     .font(.system(size: 20))
@@ -337,7 +350,7 @@ struct ContentView: View {
         
         
     }
-    func fetchUsers_bi(amount: Int) {
+    func fetchUsers_bi_btc(amount: Int) {
         let url:URL = URL(string: "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")!
 
         URLSession.shared.dataTask(with: url) { (data, res, err) in
@@ -352,7 +365,7 @@ struct ContentView: View {
             }
         }.resume()
     }
-    func fetchUsers_cb(amount: Int) {
+    func fetchUsers_cb_btc(amount: Int) {
         let url:URL = URL(string: "https://api.coinbase.com/v2/prices/BTC-USD/buy")!
 
         URLSession.shared.dataTask(with: url) { (data, res, err) in
@@ -368,9 +381,39 @@ struct ContentView: View {
             }
         }.resume()
     }
-    
+    func fetchUsers_bi_ltc(amount: Int) {
+        let url:URL = URL(string: "https://api.binance.com/api/v3/ticker/price?symbol=LTCUSDT")!
+
+        URLSession.shared.dataTask(with: url) { (data, res, err) in
+            if let err = err { print(err) }
+            guard let data = data else { return }
+            do {
+                let response = try JSONDecoder().decode(Response.self, from: data)
+                self.bi_btc_buy = Double(response.price) ?? 0
+                self.bi_btc_sell = Double(response.price) ?? 0
+            } catch let err {
+                print(err)
+            }
+        }.resume()
+    }
+    func fetchUsers_cb_ltc(amount: Int) {
+        let url:URL = URL(string: "https://api.coinbase.com/v2/prices/LTC-USD/buy")!
+
+        URLSession.shared.dataTask(with: url) { (data, res, err) in
+            if let err = err { print(err) }
+            guard let data = data else { return }
+            do {
+                let response = try JSONDecoder().decode(Response_cb.self, from: data)
+                print(response.data.amount)
+                self.cb_btc_buy = Double(response.data.amount) ?? 0
+                self.cb_btc_sell = Double(response.data.amount) ?? 0
+            } catch let err {
+                print(err)
+            }
+        }.resume()
+    }
     func loadData(){
-        
+            
         
         //cb_btc_buy = 6500
         //bi_btc_buy = 6500
