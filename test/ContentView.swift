@@ -129,15 +129,15 @@ struct ContentView: View {
     @State var first_link: String = ""
     @State var second_link: String = ""
     @State var third_link: String = ""
-    @State var first_paymeth: String = ""
-    @State var second_paymeth: String = ""
-    @State var third_paymeth: String = ""
-    @State var first_payfees: String = ""
-    @State var second_payfees: String = ""
-    @State var third_payfees: String = ""
-    @State var first_fees: String = ""
-    @State var second_fees: String = ""
-    @State var third_fees: String = ""
+    @State var first_paymeth: String = "Payment Method and Fees"
+    @State var second_paymeth: String = "Payment Method and Fees"
+    @State var third_paymeth: String = "Payment Method and Fees"
+    @State var first_payfees: String = "0"
+    @State var second_payfees: String = "0"
+    @State var third_payfees: String = "0"
+    @State var first_fees: String = "0"
+    @State var second_fees: String = "0"
+    @State var third_fees: String = "0"
     // Button animation
     @State var BuyImageChange = false
     @State var SellImageChange = false
@@ -275,20 +275,20 @@ struct ContentView: View {
                 List{
                     Section(header: Text("\(first_name)")){
                         Text("\(currency_sym[list_curr[index_curr]] ?? "$")\(first)")
-                        Text("Fees: \(cb_fees)")
-                        Text("\(first_paymeth) \(first_payfees)")
+                        Text("Fees: \(currency_sym[list_curr[index_curr]] ?? "$")\(first_fees)")
+                        Text("\(first_paymeth) \(currency_sym[list_curr[index_curr]] ?? "$")\(first_payfees)")
                     }
                     //.listRowBackground(Color("PaleBlue"))
                     Section(header: Text("\(second_name)")){
                         Text("\(currency_sym[list_curr[index_curr]] ?? "$")\(second)")
-                        Text("Fees: \(bi_fees)")
-                        Text("\(second_paymeth) \(second_payfees)")
+                        Text("Fees: \(currency_sym[list_curr[index_curr]] ?? "$")\(second_fees)")
+                        Text("\(second_paymeth) \(currency_sym[list_curr[index_curr]] ?? "$")\(second_payfees)")
                     }
                     //.listRowBackground(Color.red)
                     Section(header: Text("\(third_name)")){
                         Text("\(currency_sym[list_curr[index_curr]] ?? "$")\(third)")
-                        Text("Fees: \(third)")
-                        Text("\(third_paymeth) \(third_payfees)")
+                        Text("Fees: \(currency_sym[list_curr[index_curr]] ?? "$")\(third_fees)")
+                        Text("\(third_paymeth) \(currency_sym[list_curr[index_curr]] ?? "$")\(third_payfees)")
                     }
                 }
                 .navigationBarTitle(Text("Top Exchnages to \(buysell) \(list_crp[index_crp])"), displayMode: .inline)
@@ -440,46 +440,55 @@ struct ContentView: View {
             third = Int(list_of_exchnages[2])
             if first == Int(amount_cb){first_name = "Coinbase Pro"
                 first_link = "Coinbase"
+                first_fees = String(cb_fees)
                 first_paymeth = cb_paymeth
                 first_payfees = String(cb_payfees)
             }
             else if first == Int(amount_bi){first_name = "Binance"
                 first_link = "Binance"
+                first_fees = String(bi_fees)
                 first_paymeth = bi_paymeth
                 first_payfees = String(bi_payfees)
             }
             else if first == Int(amount_cex){first_name = "Cex.io"
                 first_link = "Cex.io"
+                first_fees = String(cex_fees)
                 first_paymeth = cex_paymeth
                 first_payfees = String(cex_payfees)
             }
             if second == Int(amount_bi){second_name = "Binance"
                 second_link = "Binance"
+                second_fees = String(bi_fees)
                 second_paymeth = bi_paymeth
                 second_payfees = String(bi_payfees)
             }
             else if second == Int(amount_cb){second_name = "Coinbase Pro"
                 second_link = "Coinbase"
+                second_fees = String(cb_fees)
                 second_paymeth = cb_paymeth
                 second_payfees = String(cb_payfees)
             }
             else if second == Int(amount_cex){second_name = "Cex.io"
                 second_link = "Cex.io"
+                second_fees = String(cex_fees)
                 second_paymeth = cex_paymeth
                 second_payfees = String(cex_payfees)
             }
             if third == Int(amount_bi){third_name = "Binance"
                 third_link = "Binance"
+                third_fees = String(bi_fees)
                 third_paymeth = bi_paymeth
                 third_payfees = String(bi_payfees)
             }
             else if third == Int(amount_cb){third_name = "Coinbase Pro"
                 third_link = "Coinbase"
+                third_fees = String(cb_fees)
                 third_paymeth = cb_paymeth
                 third_payfees = String(cb_payfees)
             }
             else if third == Int(amount_cex){third_name = "Cex.io"
                 third_link = "Cex.io"
+                third_fees = String(cex_fees)
                 third_paymeth = cex_paymeth
                 third_payfees = String(cex_payfees)
             }
@@ -488,49 +497,59 @@ struct ContentView: View {
         else if buysell == "sell"{
             if first == Int(amount_cb){first_name = "Coinbase Pro"
                 first_link = "Coinbase"
+                first_fees = String(cb_fees)
                 first_paymeth = cb_paymeth
                 first_payfees = String(cb_payfees)
             }
             else if first == Int(amount_bi){first_name = "Binance"
                 first_link = "Binance"
+                first_fees = String(bi_fees)
                 first_paymeth = bi_paymeth
                 first_payfees = String(bi_payfees)
             }
             else if first == Int(amount_cex){first_name = "Cex.io"
                 first_link = "Cex.io"
+                first_fees = String(cex_fees)
                 first_paymeth = cex_paymeth
                 first_payfees = String(cex_payfees)
             }
             if second == Int(amount_bi){second_name = "Binance"
                 second_link = "Binance"
+                second_fees = String(bi_fees)
                 second_paymeth = bi_paymeth
                 second_payfees = String(bi_payfees)
             }
             else if second == Int(amount_cb){second_name = "Coinbase Pro"
                 second_link = "Coinbase"
+                second_fees = String(cb_fees)
                 second_paymeth = cb_paymeth
                 second_payfees = String(cb_payfees)
             }
             else if second == Int(amount_cex){second_name = "Cex.io"
                 second_link = "Cex.io"
+                second_fees = String(cex_fees)
                 second_paymeth = cex_paymeth
                 second_payfees = String(cex_payfees)
             }
             if third == Int(amount_bi){third_name = "Binance"
                 third_link = "Binance"
+                third_fees = String(bi_fees)
                 third_paymeth = bi_paymeth
                 third_payfees = String(bi_payfees)
             }
             else if third == Int(amount_cb){third_name = "Coinbase Pro"
                 third_link = "Coinbase"
+                third_fees = String(cb_fees)
                 third_paymeth = cb_paymeth
                 third_payfees = String(cb_payfees)
             }
             else if third == Int(amount_cex){third_name = "Cex.io"
                 third_link = "Cex.io"
+                third_fees = String(cex_fees)
                 third_paymeth = cex_paymeth
                 third_payfees = String(cex_payfees)
             }
+
             
         }
 
