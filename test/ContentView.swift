@@ -210,6 +210,9 @@ struct ContentView: View {
                     } else if self.list_crp[self.index_crp] == "Litecoin"{
                         self.fetchUsers_bi_ltc(amount: 0)
                         self.fetchUsers_cb_ltc(amount: 0)
+                    }else if self.list_crp[self.index_crp] == "Ethereum"{
+                        self.fetchUsers_bi_eth(amount: 0)
+                        self.fetchUsers_cb_eth(amount: 0)
                     }
                     
                     self.coinbase()
@@ -241,6 +244,9 @@ struct ContentView: View {
                     } else if self.list_crp[self.index_crp] == "Litecoin"{
                         self.fetchUsers_bi_ltc(amount: 0)
                         self.fetchUsers_cb_ltc(amount: 0)
+                    } else if self.list_crp[self.index_crp] == "Ethereum"{
+                        self.fetchUsers_bi_eth(amount: 0)
+                        self.fetchUsers_cb_eth(amount: 0)
                     }
                     
                     self.coinbase()
@@ -398,6 +404,37 @@ struct ContentView: View {
     }
     func fetchUsers_cb_ltc(amount: Int) {
         let url:URL = URL(string: "https://api.coinbase.com/v2/prices/LTC-USD/buy")!
+
+        URLSession.shared.dataTask(with: url) { (data, res, err) in
+            if let err = err { print(err) }
+            guard let data = data else { return }
+            do {
+                let response = try JSONDecoder().decode(Response_cb.self, from: data)
+                print(response.data.amount)
+                self.cb_btc_buy = Double(response.data.amount) ?? 0
+                self.cb_btc_sell = Double(response.data.amount) ?? 0
+            } catch let err {
+                print(err)
+            }
+        }.resume()
+    }
+    func fetchUsers_bi_eth(amount: Int) {
+        let url:URL = URL(string: "https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT")!
+
+        URLSession.shared.dataTask(with: url) { (data, res, err) in
+            if let err = err { print(err) }
+            guard let data = data else { return }
+            do {
+                let response = try JSONDecoder().decode(Response.self, from: data)
+                self.bi_btc_buy = Double(response.price) ?? 0
+                self.bi_btc_sell = Double(response.price) ?? 0
+            } catch let err {
+                print(err)
+            }
+        }.resume()
+    }
+    func fetchUsers_cb_eth(amount: Int) {
+        let url:URL = URL(string: "https://api.coinbase.com/v2/prices/ETH-USD/buy")!
 
         URLSession.shared.dataTask(with: url) { (data, res, err) in
             if let err = err { print(err) }
