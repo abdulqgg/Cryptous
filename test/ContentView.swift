@@ -128,7 +128,9 @@ struct ContentView: View {
     @State var expand1 = false
     @State var list_curr: Array = ["GBP","USD","EUR"]
     @State var index_curr = 0
-    @State var currency_rates = ["USD" : 10, "GBP" : 1]
+    @State var currency_rates = ["USD" : 1, "GBP" : 0.8, "EUR" : 0.89]
+    @State var currency_sym = ["USD" : "$", "GBP" : "£", "EUR" : "€"]
+    @State var multi: Double = 1
     //Dropdwon scroll wheel fro crypto
     @State var expand_crp = false
     @State var expand2 = false
@@ -250,19 +252,19 @@ struct ContentView: View {
             NavigationView{
                 List{
                     Section(header: Text("\(first_name)")){
-                        Text("\(first)")
+                        Text("\(currency_sym[list_curr[index_curr]] ?? "$")\(first)")
                         Text("Fees: \(cb_fees)")
                         Text("\(first_paymeth) \(first_payfees)")
                     }
                     //.listRowBackground(Color("PaleBlue"))
                     Section(header: Text("\(second_name)")){
-                        Text("\(second)")
+                        Text("\(currency_sym[list_curr[index_curr]] ?? "$")\(second)")
                         Text("Fees: \(bi_fees)")
                         Text("\(second_paymeth) \(second_payfees)")
                     }
                     //.listRowBackground(Color.red)
                     Section(header: Text("\(second_name)")){
-                        Text("\(second)")
+                        Text("\(currency_sym[list_curr[index_curr]] ?? "$")\(second)")
                         Text("Fees: \(bi_fees)")
                         Text("\(second_paymeth) \(second_payfees)")
                     }
@@ -285,6 +287,7 @@ struct ContentView: View {
                             Button(action: {
                                 self.expand_curr.toggle()
                                 self.expand1.toggle()
+                                self.multi = self.currency_rates[self.list_curr[self.index_curr]] ?? 1
                             }) {
                                 Text("Done")
                                     .font(.system(size: 20))
@@ -436,9 +439,8 @@ struct ContentView: View {
     }
     
     func coinbase(){
-        let multi = currency_rates[list_curr[index_curr]]
         if buysell == "buy"{
-            amount_cb = Double((Int(amount) ?? 1)*Int(cb_btc_buy))*Double(multi ?? 1)
+            amount_cb = Double((Int(amount) ?? 1)*Int(cb_btc_buy))*Double(multi)
             if amount_cb < 100000{
                 cb_fees = Double(amount_cb) * Double(0.0025)}
             else if amount_cb >= 100000 && amount_cb < 1000000{
@@ -450,7 +452,7 @@ struct ContentView: View {
         }
         
         else if buysell == "sell"{
-            amount_cb = Double((Int(amount) ?? 1)*Int(cb_btc_sell))
+            amount_cb = Double((Int(amount) ?? 1)*Int(cb_btc_sell))*Double(multi)
             if amount_cb < 100000{
                 cb_fees = Double(amount_cb) * Double(0.0025)}
             else if amount_cb >= 100000 && amount_cb < 1000000{
@@ -465,7 +467,7 @@ struct ContentView: View {
 
     func binance(){
         if buysell == "buy"{
-            amount_bi = Double((Int(amount) ?? 1)*Int(bi_btc_buy))
+            amount_bi = Double((Int(amount) ?? 1)*Int(bi_btc_buy))*Double(multi)
             if Int(amount) ?? 1 <= 4500{
                 bi_fees = Double(amount_bi) * Double(0.001)}
             else if Int(amount) ?? 1 <= 10000{
@@ -479,7 +481,7 @@ struct ContentView: View {
         }
             
         else if buysell == "sell"{
-            amount_bi = Double((Int(amount) ?? 1)*Int(bi_btc_sell))
+            amount_bi = Double((Int(amount) ?? 1)*Int(bi_btc_sell))*Double(multi)
             if Int(amount) ?? 1 <= 4500{
                 bi_fees = Double(amount_bi) * Double(0.001)}
             else if Int(amount) ?? 1 <= 10000{
