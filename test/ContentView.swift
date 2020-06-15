@@ -134,9 +134,9 @@ struct ContentView: View {
     //Dropdwon scroll wheel fro crypto
     @State var expand_crp = false
     @State var expand2 = false
-    @State var list_crp: Array = ["Bitcoin","Litecoin","Ethereum"]
+    @State var list_crp: Array = ["Bitcoin","Litecoin","Ethereum","Ripple","Bitcoin Cash"]
     @State var index_crp = 0
-    @State var crpt = ["Bitcoin" : "BTC", "Litecoin" : "LTC", "Ethereum" : "ETH"]
+    @State var crpt = ["Bitcoin" : "BTC", "Litecoin" : "LTC", "Ethereum" : "ETH", "Ripple" :  "XRP","Bitcoin Cash" : "BCH"]
     
     
     var body: some View {
@@ -441,7 +441,7 @@ struct ContentView: View {
     
     func coinbase(){
         if buysell == "buy"{
-            amount_cb = Double((Int(amount) ?? 1)*Int(cb_btc_buy))*Double(multi)
+            amount_cb = Double((Double(amount) ?? 1)*Double(cb_btc_buy))*Double(multi)
             if amount_cb < 100000{
                 cb_fees = Double(amount_cb) * Double(0.0025)}
             else if amount_cb >= 100000 && amount_cb < 1000000{
@@ -453,7 +453,7 @@ struct ContentView: View {
         }
         
         else if buysell == "sell"{
-            amount_cb = Double((Int(amount) ?? 1)*Int(cb_btc_sell))*Double(multi)
+            amount_cb = Double((Double(amount) ?? 1)*Double(cb_btc_sell))*Double(multi)
             if amount_cb < 100000{
                 cb_fees = Double(amount_cb) * Double(0.0025)}
             else if amount_cb >= 100000 && amount_cb < 1000000{
@@ -468,7 +468,7 @@ struct ContentView: View {
 
     func binance(){
         if buysell == "buy"{
-            amount_bi = Double((Int(amount) ?? 1)*Int(bi_btc_buy))*Double(multi)
+            amount_bi = Double((Double(amount) ?? 1)*Double(bi_btc_buy))*Double(multi)
             if Int(amount) ?? 1 <= 4500{
                 bi_fees = Double(amount_bi) * Double(0.001)}
             else if Int(amount) ?? 1 <= 10000{
@@ -482,7 +482,7 @@ struct ContentView: View {
         }
             
         else if buysell == "sell"{
-            amount_bi = Double((Int(amount) ?? 1)*Int(bi_btc_sell))*Double(multi)
+            amount_bi = Double((Double(amount) ?? 1)*Double(bi_btc_sell))*Double(multi)
             if Int(amount) ?? 1 <= 4500{
                 bi_fees = Double(amount_bi) * Double(0.001)}
             else if Int(amount) ?? 1 <= 10000{
