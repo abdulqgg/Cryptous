@@ -99,31 +99,42 @@ struct ContentView: View {
     // Exchnages total amount (quantity * value)
     @State var amount_cb: Double = 0
     @State var amount_bi: Double = 0
+    @State var amount_cex: Double = 0
     // Values of crypto (fetched by webapi)
     @State var cb_btc_buy: Double = 0
     @State var cb_btc_sell: Double = 0
     @State var bi_btc_buy: Double = 0
     @State var bi_btc_sell: Double = 0
+    @State var cex_btc_buy: Double = 0
+    @State var cex_btc_sell: Double = 0
     // Crypto exchange fees
     @State var cb_fees: Double = 0
     @State var bi_fees: Double = 0
+    @State var cex_fees: Double = 0
     // Crypto payment methods
     @State var cb_paymeth: String = "Bank Transfer"
     @State var bi_paymeth: String = "BTC Deposit"
+    @State var cex_paymeth: String = "Bank Transfer"
     // Crypto payment fees
     @State var cb_payfees: Double = 0
     @State var bi_payfees: Double = 0
+    @State var cex_payfees: Double = 0
     // Ranking of exchanges
     @State var first: Int = 0
     @State var second: Int = 0
+    @State var third: Int = 0
     @State var first_name: String = "Coinbase Pro"
     @State var second_name: String = "Binance"
+    @State var third_name: String = "CEX.io"
     @State var first_link: String = ""
     @State var second_link: String = ""
+    @State var third_link: String = ""
     @State var first_paymeth: String = ""
     @State var second_paymeth: String = ""
+    @State var third_paymeth: String = ""
     @State var first_payfees: String = ""
     @State var second_payfees: String = ""
+    @State var third_payfees: String = ""
     // Button animation
     @State var BuyImageChange = false
     @State var SellImageChange = false
@@ -209,7 +220,7 @@ struct ContentView: View {
                     //print(self.buysell)
                     self.fetchUsers_bi_btc(amount: 0)
                     self.fetchUsers_cb_btc(amount: 0)
-                    
+                    self.cexio()
                     self.coinbase()
                     self.binance()
                     self.ranker()
@@ -236,6 +247,7 @@ struct ContentView: View {
                     self.fetchUsers_bi_btc(amount: 0)
                     self.fetchUsers_cb_btc(amount: 0)
                     self.fetchUsers_cex_btc(amount: 0)
+                    self.cexio()
                     self.coinbase()
                     self.binance()
                     self.ranker()
@@ -269,10 +281,10 @@ struct ContentView: View {
                         Text("\(second_paymeth) \(second_payfees)")
                     }
                     //.listRowBackground(Color.red)
-                    Section(header: Text("\(second_name)")){
-                        Text("\(currency_sym[list_curr[index_curr]] ?? "$")\(second)")
-                        Text("Fees: \(bi_fees)")
-                        Text("\(second_paymeth) \(second_payfees)")
+                    Section(header: Text("\(third_name)")){
+                        Text("\(currency_sym[list_curr[index_curr]] ?? "$")\(third)")
+                        Text("Fees: \(third)")
+                        Text("\(third_paymeth) \(third_payfees)")
                     }
                 }
                 .navigationBarTitle(Text("Top Exchnages to \(buysell) \(list_crp[index_crp])"), displayMode: .inline)
@@ -383,8 +395,8 @@ struct ContentView: View {
             do {
                 let response = try JSONDecoder().decode(Response_cex.self, from: data)
                 print(response.lprice)
-                //self.cb_btc_buy = Double(response.data.amount) ?? 0
-                //self.cb_btc_sell = Double(response.data.amount) ?? 0
+                self.cex_btc_buy = Double(response.lprice) ?? 0
+                self.cex_btc_sell = Double(response.lprice) ?? 0
             } catch let err {
                 print(err)
             }
@@ -404,9 +416,11 @@ struct ContentView: View {
         var list_of_exchnages = [Double]()
         list_of_exchnages.append(amount_cb)
         list_of_exchnages.append(amount_bi)
+        list_of_exchnages.append(amount_cex)
         list_of_exchnages.sort()
-        first = Int(list_of_exchnages[1])
-        second = Int(list_of_exchnages[0])
+        first = Int(list_of_exchnages[2])
+        second = Int(list_of_exchnages[1])
+        third = Int(list_of_exchnages[0])
         // first = more expensive
         // second = cheaper
         // for buy no1 = cheaper (so sell no1 = second)
@@ -414,6 +428,7 @@ struct ContentView: View {
         if buysell == "buy"{
             first = Int(list_of_exchnages[0]) // first = cheaper
             second = Int(list_of_exchnages[1]) // second = more expensive
+            third = Int(list_of_exchnages[2])
             if first == Int(amount_cb){first_name = "Coinbase Pro"
                 first_link = "Coinbase"
                 first_paymeth = cb_paymeth
@@ -423,6 +438,11 @@ struct ContentView: View {
                 first_link = "Binance"
                 first_paymeth = bi_paymeth
                 first_payfees = String(bi_payfees)
+            }
+            else if first == Int(amount_cex){first_name = "Cex.io"
+                first_link = "Cex.io"
+                first_paymeth = cex_paymeth
+                first_payfees = String(cex_payfees)
             }
             if second == Int(amount_bi){second_name = "Binance"
                 second_link = "Binance"
@@ -434,6 +454,27 @@ struct ContentView: View {
                 second_paymeth = cb_paymeth
                 second_payfees = String(cb_payfees)
             }
+            else if second == Int(amount_cex){second_name = "Cex.io"
+                second_link = "Cex.io"
+                second_paymeth = cex_paymeth
+                second_payfees = String(cex_payfees)
+            }
+            if third == Int(amount_bi){second_name = "Binance"
+                third_link = "Binance"
+                third_paymeth = bi_paymeth
+                third_payfees = String(bi_payfees)
+            }
+            else if third == Int(amount_cb){second_name = "Coinbase Pro"
+                third_link = "Coinbase"
+                third_paymeth = cb_paymeth
+                third_payfees = String(cb_payfees)
+            }
+            else if third == Int(amount_cex){second_name = "Cex.io"
+                third_link = "Cex.io"
+                third_paymeth = cex_paymeth
+                third_payfees = String(cex_payfees)
+            }
+            
         }
         else if buysell == "sell"{
             if first == Int(amount_cb){first_name = "Coinbase Pro"
@@ -446,6 +487,11 @@ struct ContentView: View {
                 first_paymeth = bi_paymeth
                 first_payfees = String(bi_payfees)
             }
+            else if first == Int(amount_cex){first_name = "Cex.io"
+                first_link = "Cex.io"
+                first_paymeth = cex_paymeth
+                first_payfees = String(cex_payfees)
+            }
             if second == Int(amount_bi){second_name = "Binance"
                 second_link = "Binance"
                 second_paymeth = bi_paymeth
@@ -456,6 +502,27 @@ struct ContentView: View {
                 second_paymeth = cb_paymeth
                 second_payfees = String(cb_payfees)
             }
+            else if second == Int(amount_cex){second_name = "Cex.io"
+                second_link = "Cex.io"
+                second_paymeth = cex_paymeth
+                second_payfees = String(cex_payfees)
+            }
+            if third == Int(amount_bi){second_name = "Binance"
+                third_link = "Binance"
+                third_paymeth = bi_paymeth
+                third_payfees = String(bi_payfees)
+            }
+            else if third == Int(amount_cb){second_name = "Coinbase Pro"
+                third_link = "Coinbase"
+                third_paymeth = cb_paymeth
+                third_payfees = String(cb_payfees)
+            }
+            else if third == Int(amount_cex){second_name = "Cex.io"
+                third_link = "Cex.io"
+                third_paymeth = cex_paymeth
+                third_payfees = String(cex_payfees)
+            }
+            
         }
 
     }
@@ -514,6 +581,36 @@ struct ContentView: View {
             bi_paymeth = "Bank Transfer"
             bi_payfees = amount_bi*0.0001
             amount_bi -= bi_fees
+        }
+    }
+    
+    func cexio(){
+        if buysell == "buy"{
+            amount_cex = Double((Double(amount) ?? 1)*Double(cex_btc_buy))*Double(multi)
+            if Int(amount) ?? 1 <= 4500{
+                cex_fees = Double(amount_cex) * Double(0.001)}
+            else if Int(amount) ?? 1 <= 10000{
+                cex_fees = Double(amount_cex) * Double(0.0009)}
+            else if Int(amount) ?? 1 <= 20000{
+                cex_fees = Double(amount_cex) * Double(0.0008)}
+            else{cex_fees = Double(amount_cex) * Double(0.0007)}
+            cex_paymeth = "Bank Transfer"
+            cex_payfees = amount_cex*0.0001
+            amount_cex += cex_fees
+        }
+            
+        else if buysell == "sell"{
+            amount_cex = Double((Double(amount) ?? 1)*Double(cex_btc_buy))*Double(multi)
+            if Int(amount) ?? 1 <= 4500{
+                cex_fees = Double(amount_cex) * Double(0.001)}
+            else if Int(amount) ?? 1 <= 10000{
+                cex_fees = Double(amount_cex) * Double(0.0009)}
+            else if Int(amount) ?? 1 <= 20000{
+                cex_fees = Double(amount_cex) * Double(0.0008)}
+            else{cex_fees = Double(amount_cex) * Double(0.0007)}
+            cex_paymeth = "Bank Transfer"
+            cex_payfees = amount_cex*0.0001
+            amount_cex += cex_fees
         }
     }
     
