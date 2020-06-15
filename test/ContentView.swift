@@ -126,10 +126,10 @@ struct ContentView: View {
     //Dropdown scroll wheel for currency
     @State var expand_curr = false
     @State var expand1 = false
-    @State var list_curr: Array = ["GBP","USD","EUR"]
+    @State var list_curr: Array = ["GBP","USD","EUR","JPY","PKR"]
     @State var index_curr = 0
-    @State var currency_rates = ["USD" : 1, "GBP" : 0.8, "EUR" : 0.89]
-    @State var currency_sym = ["USD" : "$", "GBP" : "£", "EUR" : "€"]
+    @State var currency_rates = ["USD" : 1, "GBP" : 0.8, "EUR" : 0.89, "JPY" : 107.36, "PKR" : 165.96]
+    @State var currency_sym = ["USD" : "$", "GBP" : "£", "EUR" : "€", "JPY" : "¥", "PKR" : "Rs"]
     @State var multi: Double = 1
     //Dropdwon scroll wheel fro crypto
     @State var expand_crp = false
