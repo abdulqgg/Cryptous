@@ -218,8 +218,9 @@ struct ContentView: View {
                     self.BuyImageChange.toggle()
                     self.SellImageChange = false
                     //print(self.buysell)
-                    self.fetchUsers_bi_btc(amount: 0)
-                    self.fetchUsers_cb_btc(amount: 0)
+                    //self.fetchUsers_bi_btc(amount: 0)
+                    //self.fetchUsers_cb_btc(amount: 0)
+                    //self.fetchUsers_cex_btc(amount: 0)
                     self.cexio()
                     self.coinbase()
                     self.binance()
@@ -244,9 +245,9 @@ struct ContentView: View {
                     self.SellImageChange.toggle()
                     self.BuyImageChange = false
                     //print(self.buysell)
-                    self.fetchUsers_bi_btc(amount: 0)
-                    self.fetchUsers_cb_btc(amount: 0)
-                    self.fetchUsers_cex_btc(amount: 0)
+                    //self.fetchUsers_bi_btc(amount: 0)
+                    //self.fetchUsers_cb_btc(amount: 0)
+                    //self.fetchUsers_cex_btc(amount: 0)
                     self.cexio()
                     self.coinbase()
                     self.binance()
@@ -334,6 +335,9 @@ struct ContentView: View {
                             Button(action: {
                                 self.expand_crp.toggle()
                                 self.expand2.toggle()
+                                self.fetchUsers_bi_btc(amount: 0)
+                                self.fetchUsers_cb_btc(amount: 0)
+                                self.fetchUsers_cex_btc(amount: 0)
                             }) {
                                 Text("Done")
                                     .font(.system(size: 20))
@@ -404,7 +408,9 @@ struct ContentView: View {
     }
     
     func loadData(){
-            
+        self.fetchUsers_bi_btc(amount: 0)
+        self.fetchUsers_cb_btc(amount: 0)
+        self.fetchUsers_cex_btc(amount: 0)
         
         //cb_btc_buy = 6500
         //bi_btc_buy = 6500
