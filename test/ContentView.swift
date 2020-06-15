@@ -97,9 +97,9 @@ struct ContentView: View {
     @State var amount_bi: Double = 0
     // Values of crypto (fetched by webapi)
     @State var cb_btc_buy: Double = 0
-    @State var cb_btc_sell: Int = 0
+    @State var cb_btc_sell: Double = 0
     @State var bi_btc_buy: Double = 0
-    @State var bi_btc_sell: Int = 0
+    @State var bi_btc_sell: Double = 0
     // Crypto exchange fees
     @State var cb_fees: Double = 0
     @State var bi_fees: Double = 0
@@ -114,6 +114,12 @@ struct ContentView: View {
     @State var second: Int = 0
     @State var first_name: String = "Coinbase Pro"
     @State var second_name: String = "Binance"
+    @State var first_link: String = ""
+    @State var second_link: String = ""
+    @State var first_paymeth: String = ""
+    @State var second_paymeth: String = ""
+    @State var first_payfees: String = ""
+    @State var second_payfees: String = ""
     // Button animation
     @State var BuyImageChange = false
     @State var SellImageChange = false
@@ -122,11 +128,14 @@ struct ContentView: View {
     @State var expand1 = false
     @State var list_curr: Array = ["GBP","USD","EUR"]
     @State var index_curr = 0
+    @State var currency_rates = ["USD" : 10, "GBP" : 1]
     //Dropdwon scroll wheel fro crypto
     @State var expand_crp = false
     @State var expand2 = false
     @State var list_crp: Array = ["Bitcoin","Litecoin","Ethereum"]
     @State var index_crp = 0
+    
+    
     
     var body: some View {
         
@@ -192,11 +201,12 @@ struct ContentView: View {
                     self.BuyImageChange.toggle()
                     self.SellImageChange = false
                     //print(self.buysell)
+                    self.fetchUsers_bi(amount: 0)
+                    self.fetchUsers_cb(amount: 0)
                     self.coinbase()
                     self.binance()
                     self.ranker()
-                    self.fetchUsers_bi(amount: 0)
-                    self.fetchUsers_cb(amount: 0)
+                    
                 }) {
                     HStack {
                         Text("Buy")
@@ -216,6 +226,8 @@ struct ContentView: View {
                     self.SellImageChange.toggle()
                     self.BuyImageChange = false
                     //print(self.buysell)
+                    self.fetchUsers_bi(amount: 0)
+                    self.fetchUsers_cb(amount: 0)
                     self.coinbase()
                     self.binance()
                     self.ranker()
@@ -240,19 +252,19 @@ struct ContentView: View {
                     Section(header: Text("\(first_name)")){
                         Text("\(first)")
                         Text("Fees: \(cb_fees)")
-                        Text("\(cb_paymeth) \(cb_payfees)")
+                        Text("\(first_paymeth) \(first_payfees)")
                     }
                     //.listRowBackground(Color("PaleBlue"))
                     Section(header: Text("\(second_name)")){
                         Text("\(second)")
                         Text("Fees: \(bi_fees)")
-                        Text("\(cb_paymeth) \(cb_payfees)")
+                        Text("\(second_paymeth) \(second_payfees)")
                     }
                     //.listRowBackground(Color.red)
                     Section(header: Text("\(second_name)")){
                         Text("\(second)")
                         Text("Fees: \(bi_fees)")
-                        Text("\(cb_paymeth) \(cb_payfees)")
+                        Text("\(second_paymeth) \(second_payfees)")
                     }
                 }
                 .navigationBarTitle(Text("Top Exchnages to \(buysell) \(list_crp[index_crp])"), displayMode: .inline)
@@ -331,6 +343,7 @@ struct ContentView: View {
             do {
                 let response = try JSONDecoder().decode(Response.self, from: data)
                 self.bi_btc_buy = Double(response.price) ?? 0
+                self.bi_btc_sell = Double(response.price) ?? 0
             } catch let err {
                 print(err)
             }
@@ -346,6 +359,7 @@ struct ContentView: View {
                 let response = try JSONDecoder().decode(Response_cb.self, from: data)
                 print(response.data.amount)
                 self.cb_btc_buy = Double(response.data.amount) ?? 0
+                self.cb_btc_sell = Double(response.data.amount) ?? 0
             } catch let err {
                 print(err)
             }
@@ -355,10 +369,10 @@ struct ContentView: View {
     func loadData(){
         
         
-        cb_btc_buy = 6500
+        //cb_btc_buy = 6500
         //bi_btc_buy = 6500
-        cb_btc_sell = 6500
-        bi_btc_sell = 6500
+        //cb_btc_sell = 6500
+        //bi_btc_sell = 6500
     }
     
     func ranker(){
@@ -375,38 +389,75 @@ struct ContentView: View {
         if buysell == "buy"{
             first = Int(list_of_exchnages[0]) // first = cheaper
             second = Int(list_of_exchnages[1]) // second = more expensive
-            if first == Int(amount_cb){first_name = "Coinbase Pro"}
-            else if first == Int(amount_bi){first_name = "Binance"}
-            if second == Int(amount_bi){second_name = "Binance"}
-            else if second == Int(amount_cb){second_name = "Coinbase Pro"}
+            if first == Int(amount_cb){first_name = "Coinbase Pro"
+                first_link = "Coinbase"
+                first_paymeth = cb_paymeth
+                first_payfees = String(cb_payfees)
+            }
+            else if first == Int(amount_bi){first_name = "Binance"
+                first_link = "Binance"
+                first_paymeth = bi_paymeth
+                first_payfees = String(bi_payfees)
+            }
+            if second == Int(amount_bi){second_name = "Binance"
+                second_link = "Binance"
+                second_paymeth = bi_paymeth
+                second_payfees = String(bi_payfees)
+            }
+            else if second == Int(amount_cb){second_name = "Coinbase Pro"
+                second_link = "Coinbase"
+                second_paymeth = cb_paymeth
+                second_payfees = String(cb_payfees)
+            }
         }
         else if buysell == "sell"{
-            if first == Int(amount_cb){first_name = "Coinbase Pro"}
-            else if first == Int(amount_bi){first_name = "Binance"}
-            if second == Int(amount_bi){second_name = "Binance"}
-            else if second == Int(amount_cb){second_name = "Coinbase Pro"}
+            if first == Int(amount_cb){first_name = "Coinbase Pro"
+                first_link = "Coinbase"
+                first_paymeth = cb_paymeth
+                first_payfees = String(cb_payfees)
+            }
+            else if first == Int(amount_bi){first_name = "Binance"
+                first_link = "Binance"
+                first_paymeth = bi_paymeth
+                first_payfees = String(bi_payfees)
+            }
+            if second == Int(amount_bi){second_name = "Binance"
+                second_link = "Binance"
+                second_paymeth = bi_paymeth
+                second_payfees = String(bi_payfees)
+            }
+            else if second == Int(amount_cb){second_name = "Coinbase Pro"
+                second_link = "Coinbase"
+                second_paymeth = cb_paymeth
+                second_payfees = String(cb_payfees)
+            }
         }
 
     }
     
     func coinbase(){
+        let multi = currency_rates[list_curr[index_curr]]
         if buysell == "buy"{
-            amount_cb = Double((Int(amount) ?? 1)*Int(cb_btc_buy))
+            amount_cb = Double((Int(amount) ?? 1)*Int(cb_btc_buy))*Double(multi ?? 1)
             if amount_cb < 100000{
                 cb_fees = Double(amount_cb) * Double(0.0025)}
             else if amount_cb >= 100000 && amount_cb < 1000000{
                 cb_fees = Double(amount_cb) * Double(0.0020)}
             else{cb_fees = Double(amount_cb) * Double(0.0018)}
+            cb_paymeth = "Bank Transfer"
+            cb_payfees = 0
             amount_cb += cb_fees
         }
         
         else if buysell == "sell"{
-            amount_cb = Double((Int(amount) ?? 1)*cb_btc_sell)
+            amount_cb = Double((Int(amount) ?? 1)*Int(cb_btc_sell))
             if amount_cb < 100000{
                 cb_fees = Double(amount_cb) * Double(0.0025)}
             else if amount_cb >= 100000 && amount_cb < 1000000{
                 cb_fees = Double(amount_cb) * Double(0.0020)}
             else{cb_fees = Double(amount_cb) * Double(0.0018)}
+            cb_paymeth = "Bank Transfer"
+            cb_payfees = 0
             amount_cb -= cb_fees
             
         }
@@ -422,11 +473,13 @@ struct ContentView: View {
             else if Int(amount) ?? 1 <= 20000{
                 bi_fees = Double(amount_bi) * Double(0.0008)}
             else{bi_fees = Double(amount_bi) * Double(0.0007)}
+            bi_paymeth = "Bank Transfer"
+            bi_payfees = amount_bi*0.0001
             amount_bi += bi_fees
         }
             
         else if buysell == "sell"{
-            amount_bi = Double((Int(amount) ?? 1)*bi_btc_sell)
+            amount_bi = Double((Int(amount) ?? 1)*Int(bi_btc_sell))
             if Int(amount) ?? 1 <= 4500{
                 bi_fees = Double(amount_bi) * Double(0.001)}
             else if Int(amount) ?? 1 <= 10000{
@@ -434,6 +487,8 @@ struct ContentView: View {
             else if Int(amount) ?? 1 <= 20000{
                 bi_fees = Double(amount_bi) * Double(0.0008)}
             else{bi_fees = Double(amount_bi) * Double(0.0007)}
+            bi_paymeth = "Bank Transfer"
+            bi_payfees = amount_bi*0.0001
             amount_bi -= bi_fees
         }
     }
