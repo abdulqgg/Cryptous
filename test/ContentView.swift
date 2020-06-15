@@ -467,7 +467,7 @@ struct ContentView: View {
             first = Int(list_of_exchnages[0]) // first = cheaper
             second = Int(list_of_exchnages[1]) // second = more expensive
             third = Int(list_of_exchnages[2])
-            if first == Int(amount_cb){first_name = "Coinbase Pro (Extra £7.90 Through Link)"
+            if first == Int(amount_cb){first_name = "Coinbase Pro (Extra 10% Through Link)"
                 first_link = "https://www.coinbase.com/join/gilani_w"
                 first_fees = String(cb_fees)
                 first_paymeth = cb_paymeth
@@ -491,7 +491,7 @@ struct ContentView: View {
                 second_paymeth = bi_paymeth
                 second_payfees = String(bi_payfees)
             }
-            else if second == Int(amount_cb){second_name = "Coinbase Pro (Extra £7.90 Through Link)"
+            else if second == Int(amount_cb){second_name = "Coinbase Pro (Extra 10% Through Link)"
                 second_link = "https://www.coinbase.com/join/gilani_w"
                 second_fees = String(cb_fees)
                 second_paymeth = cb_paymeth
@@ -509,7 +509,7 @@ struct ContentView: View {
                 third_paymeth = bi_paymeth
                 third_payfees = String(bi_payfees)
             }
-            else if third == Int(amount_cb){third_name = "Coinbase Pro (Extra £7.90 Through Link)"
+            else if third == Int(amount_cb){third_name = "Coinbase Pro (Extra 10% Through Link)"
                 third_link = "https://www.coinbase.com/join/gilani_w"
                 third_fees = String(cb_fees)
                 third_paymeth = cb_paymeth
@@ -524,7 +524,7 @@ struct ContentView: View {
             
         }
         else if buysell == "sell"{
-            if first == Int(amount_cb){first_name = "Coinbase Pro (Extra £7.90 Through Link)"
+            if first == Int(amount_cb){first_name = "Coinbase Pro (Extra 10% Through Link)"
                 first_link = "https://www.coinbase.com/join/gilani_w"
                 first_fees = String(cb_fees)
                 first_paymeth = cb_paymeth
@@ -548,7 +548,7 @@ struct ContentView: View {
                 second_paymeth = bi_paymeth
                 second_payfees = String(bi_payfees)
             }
-            else if second == Int(amount_cb){second_name = "Coinbase Pro (Extra £7.90 Through Link)"
+            else if second == Int(amount_cb){second_name = "Coinbase Pro (Extra 10% Through Link)"
                 second_link = "https://www.coinbase.com/join/gilani_w"
                 second_fees = String(cb_fees)
                 second_paymeth = cb_paymeth
@@ -566,7 +566,7 @@ struct ContentView: View {
                 third_paymeth = bi_paymeth
                 third_payfees = String(bi_payfees)
             }
-            else if third == Int(amount_cb){third_name = "Coinbase Pro (Extra £7.90 Through Link)"
+            else if third == Int(amount_cb){third_name = "Coinbase Pro (Extra 10% Through Link)"
                 third_link = "https://www.coinbase.com/join/gilani_w"
                 third_fees = String(cb_fees)
                 third_paymeth = cb_paymeth
@@ -596,6 +596,7 @@ struct ContentView: View {
             cb_paymeth = "Bank Transfer"
             cb_payfees = 0
             amount_cb += cb_fees
+            cb_fees = Double(String(format: "%.2f", cb_fees)) ?? 1
         }
         
         else if buysell == "sell"{
@@ -608,6 +609,7 @@ struct ContentView: View {
             cb_paymeth = "Bank Transfer"
             cb_payfees = 0
             amount_cb -= cb_fees
+            cb_fees = Double(String(format: "%.2f", cb_fees)) ?? 1
             
         }
     }
@@ -623,8 +625,9 @@ struct ContentView: View {
                 bi_fees = Double(amount_bi) * Double(0.0008)}
             else{bi_fees = Double(amount_bi) * Double(0.0007)}
             bi_paymeth = "Bank Transfer"
-            bi_payfees = amount_bi*0.0001
+            bi_payfees = Double(String(format: "%.2f",amount_bi*0.0001)) ?? 1
             amount_bi += bi_fees
+            bi_fees = Double(String(format: "%.2f", bi_fees)) ?? 1
         }
             
         else if buysell == "sell"{
@@ -637,8 +640,9 @@ struct ContentView: View {
                 bi_fees = Double(amount_bi) * Double(0.0008)}
             else{bi_fees = Double(amount_bi) * Double(0.0007)}
             bi_paymeth = "Bank Transfer"
-            bi_payfees = amount_bi*0.0001
+            bi_payfees = Double(String(format: "%.2f",amount_bi*0.0001)) ?? 1
             amount_bi -= bi_fees
+            bi_fees = Double(String(format: "%.2f", bi_fees)) ?? 1
         }
     }
     
@@ -655,6 +659,7 @@ struct ContentView: View {
             cex_paymeth = "Bank Transfer"
             cex_payfees = amount_cex*0.0000
             amount_cex += cex_fees
+            cex_fees = Double(String(format: "%.2f", cex_fees)) ?? 1
         }
             
         else if buysell == "sell"{
@@ -669,6 +674,7 @@ struct ContentView: View {
             cex_paymeth = "Bank Transfer"
             cex_payfees = amount_cex*0.0000
             amount_cex += cex_fees
+            cex_fees = Double(String(format: "%.2f", cex_fees)) ?? 1
         }
     }
     
