@@ -66,9 +66,13 @@ struct User_cb: Codable {
 struct User_cb1: Codable{
     var amount: String
 }
+struct User_cex: Codable{
+    var lprice: String
+}
 
 typealias Response_cb = User_cb
 typealias Response = User
+typealias Response_cex = User_cex
 
 struct GradientBackgroundStyle: ButtonStyle {
  
@@ -231,7 +235,7 @@ struct ContentView: View {
                     //print(self.buysell)
                     self.fetchUsers_bi_btc(amount: 0)
                     self.fetchUsers_cb_btc(amount: 0)
-                    
+                    self.fetchUsers_cex_btc(amount: 0)
                     self.coinbase()
                     self.binance()
                     self.ranker()
@@ -370,7 +374,24 @@ struct ContentView: View {
             }
         }.resume()
     }
-        func loadData(){
+    func fetchUsers_cex_btc(amount: Int) {
+        let url:URL = URL(string: "https://cex.io/api/last_price/\(crpt[list_crp[index_crp]] ?? "BTC")/USDT")!
+
+        URLSession.shared.dataTask(with: url) { (data, res, err) in
+            if let err = err { print(err) }
+            guard let data = data else { return }
+            do {
+                let response = try JSONDecoder().decode(Response_cex.self, from: data)
+                print(response.lprice)
+                //self.cb_btc_buy = Double(response.data.amount) ?? 0
+                //self.cb_btc_sell = Double(response.data.amount) ?? 0
+            } catch let err {
+                print(err)
+            }
+        }.resume()
+    }
+    
+    func loadData(){
             
         
         //cb_btc_buy = 6500
