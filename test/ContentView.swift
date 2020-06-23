@@ -275,15 +275,9 @@ struct ContentView: View {
             NavigationView{
                 List{
                     Section(header:
-                        Button(action: {
-
-                            if let yourURL = URL(string: "\(self.first_link)") {
-                                UIApplication.shared.open(yourURL, options: [:], completionHandler: nil)
-                            }
-
-                        }) {
+                    
                            Text("\(first_name)")
-                        }
+                        
                     ){
                         Text("\(currency_sym[list_curr[index_curr]] ?? "$")\(first)")
                         Text("Fees: \(currency_sym[list_curr[index_curr]] ?? "$")\(first_fees)")
@@ -291,30 +285,18 @@ struct ContentView: View {
                     }
                     //.listRowBackground(Color("PaleBlue"))
                     Section(header:
-                        Button(action: {
-
-                        if let yourURL = URL(string: "\(self.second_link)") {
-                            UIApplication.shared.open(yourURL, options: [:], completionHandler: nil)
-                        }
-
-                    }) {
+                        
                        Text("\(second_name)")
-                    }){
+                    ){
                         Text("\(currency_sym[list_curr[index_curr]] ?? "$")\(second)")
                         Text("Fees: \(currency_sym[list_curr[index_curr]] ?? "$")\(second_fees)")
                         Text("\(second_paymeth) \(currency_sym[list_curr[index_curr]] ?? "$")\(second_payfees)")
                     }
                     //.listRowBackground(Color.red)
                     Section(header:
-                        Button(action: {
-
-                        if let yourURL = URL(string: "\(self.third_link)") {
-                            UIApplication.shared.open(yourURL, options: [:], completionHandler: nil)
-                        }
-
-                    }) {
+                        
                        Text("\(third_name)")
-                    }){
+                    ){
                         Text("\(currency_sym[list_curr[index_curr]] ?? "$")\(third)")
                         Text("Fees: \(currency_sym[list_curr[index_curr]] ?? "$")\(third_fees)")
                         Text("\(third_paymeth) \(currency_sym[list_curr[index_curr]] ?? "$")\(third_payfees)")
@@ -467,13 +449,13 @@ struct ContentView: View {
             first = Int(list_of_exchnages[0]) // first = cheaper
             second = Int(list_of_exchnages[1]) // second = more expensive
             third = Int(list_of_exchnages[2])
-            if first == Int(amount_cb){first_name = "Coinbase Pro (Extra 10% Through Link)"
+            if first == Int(amount_cb){first_name = "Coinbase Pro"
                 first_link = "https://www.coinbase.com/join/gilani_w"
                 first_fees = String(cb_fees)
                 first_paymeth = cb_paymeth
                 first_payfees = String(cb_payfees)
             }
-            else if first == Int(amount_bi){first_name = "Binance (Extra 10% Through Link)"
+            else if first == Int(amount_bi){first_name = "Binance"
                 first_link = "https://www.binance.com/en/register?ref=VOWZ7RNE"
                 first_fees = String(bi_fees)
                 first_paymeth = bi_paymeth
@@ -485,13 +467,13 @@ struct ContentView: View {
                 first_paymeth = cex_paymeth
                 first_payfees = String(cex_payfees)
             }
-            if second == Int(amount_bi){second_name = "Binance (Extra 10% Through Link)"
+            if second == Int(amount_bi){second_name = "Binance"
                 second_link = "https://www.binance.com/en/register?ref=VOWZ7RNE"
                 second_fees = String(bi_fees)
                 second_paymeth = bi_paymeth
                 second_payfees = String(bi_payfees)
             }
-            else if second == Int(amount_cb){second_name = "Coinbase Pro (Extra 10% Through Link)"
+            else if second == Int(amount_cb){second_name = "Coinbase"
                 second_link = "https://www.coinbase.com/join/gilani_w"
                 second_fees = String(cb_fees)
                 second_paymeth = cb_paymeth
@@ -503,13 +485,13 @@ struct ContentView: View {
                 second_paymeth = cex_paymeth
                 second_payfees = String(cex_payfees)
             }
-            if third == Int(amount_bi){third_name = "Binance (Extra 10% Through Link)"
+            if third == Int(amount_bi){third_name = "Binance"
                 third_link = "https://www.binance.com/en/register?ref=VOWZ7RNE"
                 third_fees = String(bi_fees)
                 third_paymeth = bi_paymeth
                 third_payfees = String(bi_payfees)
             }
-            else if third == Int(amount_cb){third_name = "Coinbase Pro (Extra 10% Through Link)"
+            else if third == Int(amount_cb){third_name = "Coinbase Pro"
                 third_link = "https://www.coinbase.com/join/gilani_w"
                 third_fees = String(cb_fees)
                 third_paymeth = cb_paymeth
@@ -524,13 +506,13 @@ struct ContentView: View {
             
         }
         else if buysell == "sell"{
-            if first == Int(amount_cb){first_name = "Coinbase Pro (Extra 10% Through Link)"
+            if first == Int(amount_cb){first_name = "Coinbase Pro"
                 first_link = "https://www.coinbase.com/join/gilani_w"
                 first_fees = String(cb_fees)
                 first_paymeth = cb_paymeth
                 first_payfees = String(cb_payfees)
             }
-            else if first == Int(amount_bi){first_name = "Binance (Extra 10% Through Link)"
+            else if first == Int(amount_bi){first_name = "Binance"
                 first_link = "https://www.binance.com/en/register?ref=VOWZ7RNE"
                 first_fees = String(bi_fees)
                 first_paymeth = bi_paymeth
@@ -542,13 +524,13 @@ struct ContentView: View {
                 first_paymeth = cex_paymeth
                 first_payfees = String(cex_payfees)
             }
-            if second == Int(amount_bi){second_name = "Binance (Extra 10% Through Link)"
+            if second == Int(amount_bi){second_name = "Binance"
                 second_link = "https://www.binance.com/en/register?ref=VOWZ7RNE"
                 second_fees = String(bi_fees)
                 second_paymeth = bi_paymeth
                 second_payfees = String(bi_payfees)
             }
-            else if second == Int(amount_cb){second_name = "Coinbase Pro (Extra 10% Through Link)"
+            else if second == Int(amount_cb){second_name = "Coinbase Pro"
                 second_link = "https://www.coinbase.com/join/gilani_w"
                 second_fees = String(cb_fees)
                 second_paymeth = cb_paymeth
@@ -560,13 +542,13 @@ struct ContentView: View {
                 second_paymeth = cex_paymeth
                 second_payfees = String(cex_payfees)
             }
-            if third == Int(amount_bi){third_name = "Binance (Extra 10% Through Link)"
+            if third == Int(amount_bi){third_name = "Binance"
                 third_link = "https://www.binance.com/en/register?ref=VOWZ7RNE"
                 third_fees = String(bi_fees)
                 third_paymeth = bi_paymeth
                 third_payfees = String(bi_payfees)
             }
-            else if third == Int(amount_cb){third_name = "Coinbase Pro (Extra 10% Through Link)"
+            else if third == Int(amount_cb){third_name = "Coinbase Pro"
                 third_link = "https://www.coinbase.com/join/gilani_w"
                 third_fees = String(cb_fees)
                 third_paymeth = cb_paymeth

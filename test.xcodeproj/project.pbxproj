@@ -35,7 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1DD9392223C5CD4D00769274 /* test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DD9392223C5CD4D00769274 /* Cryptous.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cryptous.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DD9392523C5CD4E00769274 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DD9392723C5CD4E00769274 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1DD9392923C5CD4E00769274 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -89,7 +89,7 @@
 		1DD9392323C5CD4D00769274 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1DD9392223C5CD4D00769274 /* test.app */,
+				1DD9392223C5CD4D00769274 /* Cryptous.app */,
 				1DD9393823C5CD4F00769274 /* testTests.xctest */,
 				1DD9394323C5CD4F00769274 /* testUITests.xctest */,
 			);
@@ -153,7 +153,7 @@
 			);
 			name = test;
 			productName = test;
-			productReference = 1DD9392223C5CD4D00769274 /* test.app */;
+			productReference = 1DD9392223C5CD4D00769274 /* Cryptous.app */;
 			productType = "com.apple.product-type.application";
 		};
 		1DD9393723C5CD4F00769274 /* testTests */ = {
@@ -435,6 +435,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"test/Preview Content\"";
 				DEVELOPMENT_TEAM = SCFYAGX7V4;
 				ENABLE_PREVIEWS = YES;
@@ -443,10 +444,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ShireTechltd.test;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = 2.1;
+				PRODUCT_BUNDLE_IDENTIFIER = app.Cryptous;
+				PRODUCT_NAME = Cryptous;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -455,6 +457,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"test/Preview Content\"";
 				DEVELOPMENT_TEAM = SCFYAGX7V4;
 				ENABLE_PREVIEWS = YES;
@@ -463,10 +466,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ShireTechltd.test;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = 2.1;
+				PRODUCT_BUNDLE_IDENTIFIER = app.Cryptous;
+				PRODUCT_NAME = Cryptous;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
