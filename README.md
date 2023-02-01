@@ -9,3 +9,6 @@ Cryptous is a cutting-edge application designed to simplify the process of findi
 <img src="https://user-images.githubusercontent.com/43912641/216150522-030ea548-c765-4956-9bca-407442fcef48.png" width="200" height="400">
 <img src="https://user-images.githubusercontent.com/43912641/216150525-ec1e070b-06d8-440a-a42a-a30418737d47.png" width="200" height="400">
 
+Community help:
+https://stackoverflow.com/questions/59990555/swiftui-how-to-add-done-button-to-picker
+
